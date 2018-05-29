@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
+import styles from './App.css';
 import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
-import Login from './components/Login/Login';
+import Login from './components/Authentication/Login/Login';
 import { connect } from 'react-redux';
+import Layout from './hoc/Layout/Layout';
 
 class App extends Component {
   state = {
@@ -14,9 +15,10 @@ class App extends Component {
     const forceAuthentication = !this.state.isAuthenticated ? <Redirect from="/" to="/login" /> : null;
 
     return (
-      <div className="App">
-        {forceAuthentication}
+      <div className={styles.App}>
+        <Layout>
 
+        </Layout>
         <Switch>
           <Route name="Login" path="/login" component={Login} />
         </Switch>
