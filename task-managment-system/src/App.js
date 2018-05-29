@@ -16,8 +16,8 @@ class App extends Component {
 
     return (
       <div className={styles.App}>
-        <Layout>
-
+        {forceAuthentication}
+        <Layout isAuthenticated={this.state.isAuthenticated}>
         </Layout>
         <Switch>
           <Route name="Login" path="/login" component={Login} />

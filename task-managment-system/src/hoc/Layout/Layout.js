@@ -6,7 +6,9 @@ export default class Layout extends Component {
     render() {
         return (
             <Aux>
-                <Menu />
+                {this.props.isAuthenticated ?
+                    <Menu />
+                    : null}
             </Aux>
         );
     }
