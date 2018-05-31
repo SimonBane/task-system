@@ -5,11 +5,15 @@ import Login from './components/Authentication/Login/Login';
 import Register from './components/Authentication/Register/Register';
 import { connect } from 'react-redux';
 import Layout from './hoc/Layout/Layout';
+import Tasks from './components/Tasks/Tasks';
+import { isUserLoggedIn } from './store/Actions';
+import { bindActionCreators } from 'redux'
 
 class App extends Component {
-  state = {
-    isAuthenticated: false,
-    isAdmin: false
+  constructor(props) {
+    super(props);
+    this.state = Object.assign({}, props, { isAuthenticated: false, isAdmin: false });
+    this.props.isLoggedInUser();
   }
 
   seedData() {
@@ -37,26 +41,25 @@ class App extends Component {
     if (nextProps.currentUser !== this.props.currentUser) {
       this.setState((prevState) => {
         prevState.currentUser = nextProps.currentUser;
-        prevState.isLogged = typeof (nextProps.currentUser.username) !== 'undefined';
+        prevState.isAuthenticated = typeof (nextProps.currentUser.username) !== 'undefined';
         prevState.isAdmin = nextProps.currentUser.role === 'admin';
       });
     }
   }
 
   render() {
-    const forceAuthentication = !this.state.isAuthenticated ? <Redirect from="/" to="/login" /> : null;
 
     return (
       <div className={styles.App}>
-        {forceAuthentication}
-        
         <Layout isAuthenticated={this.state.isAuthenticated}>
         </Layout>
 
         <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/" />
+          {!this.state.isAuthenticated ? <Route path="/login" component={Login} /> : null}
+          {!this.state.isAuthenticated ? <Route path="/register" component={Register} /> : null}
+          {!this.state.isAuthenticated ? <Route path= "/" component={Login} /> : null}
+          {this.state.isAuthenticated ? <Route path="/tasks" component={Tasks} /> : null}
+          {this.state.isAuthenticated ? <Route path="/" component={Tasks} /> : null}
         </Switch>
       </div>
     );
@@ -71,7 +74,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-  };
-};
+    isLoggedInUser: bindActionCreators(isUserLoggedIn, dispatch)
+  }
+}
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

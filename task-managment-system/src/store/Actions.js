@@ -29,3 +29,10 @@ export function loginUser(user) {
     };
 }
 
+export function isUserLoggedIn() {
+    let storedUser = JSON.parse(localStorage.getItem('currentUser'));
+    return {
+      type: actionTypes.IS_LOGGED_USER,
+      user: storedUser
+    }
+  }

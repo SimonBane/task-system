@@ -25,6 +25,7 @@ class Register extends Component {
 
     registerUser = (event) => {
         this.props.registerUser(this.state.user);
+        this.props.history.push('/tasks');
     }
 
     render() {
