@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
 import styles from './App.css';
-import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
+import { Route, withRouter, Switch } from 'react-router-dom';
 import Login from './components/Authentication/Login/Login';
 import Register from './components/Authentication/Register/Register';
 import { connect } from 'react-redux';
 import Layout from './hoc/Layout/Layout';
+import { checkUserSession, logoutUser } from './store/Actions';
+import { bindActionCreators } from 'redux';
+import Tasks from './components/Tasks/Tasks';
 
 class App extends Component {
-  state = {
-    isAuthenticated: false,
-    isAdmin: false
+  constructor(props) {
+    super(props);
+    this.state = Object.assign({}, props, { isAuthenticated: false, isAdmin: false, });
+    this.seedData();
+    this.props.sessionCheck();
   }
 
   seedData() {
-    let usersArr = JSON.parse(localStorage.getItem('users'));
-    if (!usersArr || usersArr.length === 0) {
+    let users = JSON.parse(localStorage.getItem('users'));
+    if (!users || users.length === 0) {
       localStorage.setItem('users', JSON.stringify([{
         username: "simo",
         password: "simo",
@@ -23,40 +28,39 @@ class App extends Component {
       }]));
     }
 
-    let _currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!_currentUser) {
-      localStorage.setItem('currentUser', JSON.stringify({}));
+    let user = JSON.parse(localStorage.getItem('loggedUser'));
+    if (!user) {
+      localStorage.setItem('loggedUser', JSON.stringify({}));
     }
   }
 
-  componentWillMount() {
-    this.seedData();
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.currentUser !== this.props.currentUser) {
+    if (nextProps.loggedUser !== this.props.loggedUser) {
       this.setState((prevState) => {
-        prevState.currentUser = nextProps.currentUser;
-        prevState.isLogged = typeof (nextProps.currentUser.username) !== 'undefined';
-        prevState.isAdmin = nextProps.currentUser.role === 'admin';
+        prevState.loggedUser = nextProps.loggedUser;
+        prevState.isAuthenticated = typeof (nextProps.loggedUser.username) !== 'undefined';
+        prevState.isAdmin = nextProps.loggedUser.role === 'admin';
       });
     }
   }
 
-  render() {
-    const forceAuthentication = !this.state.isAuthenticated ? <Redirect from="/" to="/login" /> : null;
+  discardSession = () => {
+    this.props.logout();
+    this.props.history.push("/");
+  }
 
+  render() {
+    console.log(this.state.isAuthenticated);
     return (
       <div className={styles.App}>
-        {forceAuthentication}
-        
-        <Layout isAuthenticated={this.state.isAuthenticated}>
+        <Layout isAuthenticated={this.state.isAuthenticated} logOut={this.discardSession}>
         </Layout>
 
         <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/" />
+          {!this.state.isAuthenticated ? <Route path="/login" component={Login} /> : null}
+          {!this.state.isAuthenticated ? <Route path="/register" component={Register} /> : null}
+          {!this.state.isAuthenticated ? <Route path="/" component={Login} /> : null}
+          {this.state.isAuthenticated ? <Route path="/tasks" component={Tasks} /> : null}
         </Switch>
       </div>
     );
@@ -65,12 +69,14 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    currentUser: state.currentUser
+    loggedUser: state.loggedUser
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    sessionCheck: bindActionCreators(checkUserSession, dispatch),
+    logout: bindActionCreators(logoutUser, dispatch)
   };
 };
 

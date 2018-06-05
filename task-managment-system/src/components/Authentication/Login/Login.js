@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from './Login.css';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { loginUser } from '../../../store/Actions';
@@ -23,6 +23,7 @@ class Login extends Component {
 
     onLoginHandler = () => {
         this.props.login(this.state.user);
+        this.props.history.push('/tasks');
     }
 
     render() {
@@ -44,14 +45,14 @@ class Login extends Component {
 
 const mapStateToProps = state => {
     return{
-        currentUser:state.currentUser
+        loggedUser: state.loggedUser
     }
  }
- 
+
  const mapDispatchToProps = dispatch => {
      return{
          login: bindActionCreators(loginUser, dispatch)
      }
   }
- 
+
  export default connect(mapStateToProps, mapDispatchToProps)(Login);

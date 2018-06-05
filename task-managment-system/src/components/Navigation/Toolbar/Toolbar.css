@@ -1,10 +1,10 @@
-.Menu {
+.Toolbar {
     height: 56px;
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #703B09;
+    background-color: black;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -13,6 +13,12 @@
     z-index: 90;
 }
 
-.Menu nav {
+.Toolbar nav {
     height: 100%;
+}
+
+@media (max-width: 499px) {
+    .DesktopOnly {
+        display: none;
+    }
 }
