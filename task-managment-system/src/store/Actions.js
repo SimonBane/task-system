@@ -1,7 +1,7 @@
 import * as actionTypes from './ActionTypes';
 
 export function registerUser(user) {
-    localStorage.setItem('currentUser', JSON.stringify(user))
+    localStorage.setItem('loggedUser', JSON.stringify(user))
     let users = JSON.parse(localStorage.getItem('users'));
     users.push(user);
     localStorage.setItem('users', JSON.stringify(users));
@@ -13,26 +13,34 @@ export function registerUser(user) {
 }
 
 export function loginUser(user) {
-    let result = {};
+    let loggedUser = {};
 
     let users = JSON.parse(localStorage.getItem('users'));
     users.forEach(userEntity => {
         if (user.username === userEntity.username && user.password === userEntity.password) {
-            result = userEntity;
+            loggedUser = userEntity;
         }
     });
 
-    localStorage.setItem('currentUser', JSON.stringify(result));
+    localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
     return {
         type: actionTypes.LOGIN_USER,
-        user: result
+        user: loggedUser
     };
 }
 
-export function isUserLoggedIn() {
-    let storedUser = JSON.parse(localStorage.getItem('currentUser'));
+export function logoutUser() {
+    localStorage.setItem('loggedUser', JSON.stringify({}))
     return {
-      type: actionTypes.IS_LOGGED_USER,
-      user: storedUser
+        type: actionTypes.LOGOUT_USER,
+        user: {}
     }
-  }
+}
+
+export function checkUserSession() {
+    let loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+    return {
+        type: actionTypes.USER_SESSION,
+        user: loggedUser
+    }
+}

@@ -4,7 +4,8 @@ import NavigationItem from './NavigationItem/NavigationItem';
 
 const navigationItems = (props) => (
     <ul className={styles.NavigationItems}>
-        <NavigationItem link="/">Tasks</NavigationItem>
+        <NavigationItem link="/tasks">Tasks</NavigationItem>
+        <NavigationItem link="/" onClick={props.logOut} float="right">Log out</NavigationItem>
     </ul>
 );
 

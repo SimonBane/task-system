@@ -48,7 +48,7 @@ class Register extends Component {
 
 const mapStateToProps = state => {
     return {
-        currentUser: state.currentUser
+        loggedUser: state.loggedUser
     };
 }
 

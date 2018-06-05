@@ -45,14 +45,14 @@ class Login extends Component {
 
 const mapStateToProps = state => {
     return{
-        currentUser:state.currentUser
+        loggedUser: state.loggedUser
     }
  }
- 
+
  const mapDispatchToProps = dispatch => {
      return{
          login: bindActionCreators(loginUser, dispatch)
      }
   }
- 
+
  export default connect(mapStateToProps, mapDispatchToProps)(Login);
