@@ -8,6 +8,7 @@ import Layout from './hoc/Layout/Layout';
 import { checkUserSession, logoutUser } from './store/Actions';
 import { bindActionCreators } from 'redux';
 import Tasks from './components/Tasks/Tasks';
+import Users from './components/Users/Users';
 
 class App extends Component {
   constructor(props) {
@@ -51,10 +52,9 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.isAuthenticated);
     return (
       <div className={styles.App}>
-        <Layout isAuthenticated={this.state.isAuthenticated} logOut={this.discardSession}>
+        <Layout isAuthenticated={this.state.isAuthenticated} isAdmin={this.state.isAdmin} logOut={this.discardSession}>
         </Layout>
 
         <Switch>
@@ -62,6 +62,7 @@ class App extends Component {
           {!this.state.isAuthenticated ? <Route path="/register" component={Register} /> : null}
           {!this.state.isAuthenticated ? <Route path="/" component={Login} /> : null}
           {this.state.isAuthenticated ? <Route path="/tasks" component={Tasks} /> : null}
+          {this.state.isAuthenticated && this.state.isAdmin ? <Route path="/users" component={Users} /> : null}
         </Switch>
       </div>
     );

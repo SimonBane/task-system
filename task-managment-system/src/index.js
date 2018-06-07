@@ -7,6 +7,8 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import baseReducer from './store/BaseReducer';
 import { BrowserRouter } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
 
 const store = createStore(baseReducer);
 

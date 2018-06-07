@@ -7,7 +7,7 @@ export default class Layout extends Component {
         return (
             <Aux>
                 {this.props.isAuthenticated ?
-                    <Toolbar logOut={this.props.logOut} />
+                    <Toolbar isAdmin={this.props.isAdmin} logOut={this.props.logOut} />
                     : null}
             </Aux>
         );
