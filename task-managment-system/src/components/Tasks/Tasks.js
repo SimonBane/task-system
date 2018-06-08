@@ -93,7 +93,6 @@ export default class Tasks extends Component {
     deleteRow = (props) => {
         let storedTasks = JSON.parse(localStorage.getItem('tasks'));
         let taskIndex = 0;
-        debugger;
         for (let _task of storedTasks) {
             if (_task.user === props.data.user && _task.title === props.data.title) {
                 break;
@@ -108,6 +107,7 @@ export default class Tasks extends Component {
     editTask = (props) => {
         this.setState({
             currentTask: {
+                user: props.data.user,
                 title: props.data.title,
                 description: props.data.description,
                 priority: props.data.priority,
@@ -149,7 +149,6 @@ export default class Tasks extends Component {
         this.setState({currentTask: editedTask});
         const rowNode = this.gridApi.getRowNode(editedTask.title);
         var a = this.state.currentTask;
-        debugger;
         rowNode.setDataValue("title", this.state.currentTask.title);
         rowNode.setDataValue("description", this.state.currentTask.description);
         rowNode.setDataValue("priority", this.state.currentTask.priority);
