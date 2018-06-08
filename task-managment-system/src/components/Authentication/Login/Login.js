@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './Login.css';
+import './Login.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -28,14 +28,14 @@ class Login extends Component {
 
     render() {
         return (
-            <div className={styles.LoginPage}>
-                <div className={styles.Form}>
+            <div className="LoginPage">
+                <div className="Form">
                     <h3>Please login before proceeding further!</h3>
                     <form className="login-form">
                         <input type="text" placeholder="Username" onChange={(event) => this.onChangeHandler(event, "username")}/>
                         <input type="password" placeholder="Password" onChange={(event) => this.onChangeHandler(event, "password")}/>
                         <button type="button" onClick={this.onLoginHandler}>login</button>
-                        <p className={styles.Message}>Not registered? <Link to="/register">Create an account</Link></p>
+                        <p className="Message">Not registered? <Link to="/register">Create an account</Link></p>
                     </form>
                 </div>
             </div>

@@ -1,11 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import styles from './NavigationItem.css';
+import './NavigationItem.css';
 
 const navigationItem = (props) => (
-    <li className={styles.NavigationItem}>
+    <li className="NavigationItem">
         <NavLink
-            activeClassName={styles.active}
+            activeClassName="active"
             exact
             to={props.link} onClick={props.onClick} style={{float: props.float}}>{props.children}</NavLink>
     </li>

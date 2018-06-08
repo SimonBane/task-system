@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './App.css';
+import './App.css';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import Login from './components/Authentication/Login/Login';
 import Register from './components/Authentication/Register/Register';
@@ -29,6 +29,17 @@ class App extends Component {
       }]));
     }
 
+    let tasks = JSON.parse(localStorage.getItem('tasks'));
+    if (!tasks || tasks.length === 0) {
+      localStorage.setItem('tasks', JSON.stringify([{
+        user: "Simo",
+        title: "First task",
+        description: "Default task description.",
+        priority: 1,
+        status: "awaiting"
+      }]));
+    }
+
     let user = JSON.parse(localStorage.getItem('loggedUser'));
     if (!user) {
       localStorage.setItem('loggedUser', JSON.stringify({}));
@@ -53,7 +64,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className={styles.App}>
+      <div className="App">
         <Layout isAuthenticated={this.state.isAuthenticated} isAdmin={this.state.isAdmin} logOut={this.discardSession}>
         </Layout>
 

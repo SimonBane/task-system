@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import styles from "./Register.css";
+import "./Register.css";
 import * as roles from '../Roles';
 import { bindActionCreators } from 'redux'
 import { registerUser } from '../../../store/Actions';
@@ -30,8 +30,8 @@ class Register extends Component {
 
     render() {
         return (
-            <div className={styles.RegisterPage}>
-                <div className={styles.Form}>
+            <div className="RegisterPage">
+                <div className="Form">
                     <h3>Create an account!</h3>
                     <form>
                         <input type="text" placeholder="Username" onChange={(event) => this.onChangeHandler(event, "username")} />
